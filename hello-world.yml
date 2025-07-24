@@ -1,4 +1,4 @@
-name: Hello World Workflow 1
+name: Ruby Rake Test
 
 on:
   push:
@@ -6,8 +6,20 @@ on:
       - main
 
 jobs:
-  say-hello:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Print Hello World
-        run: echo "Hello, World!"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install dependencies
+        run: bundle install || echo "No Gemfile to install"
+
+      - name: Run Rake
+        run: rake
